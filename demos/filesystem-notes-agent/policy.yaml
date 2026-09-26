@@ -1,0 +1,38 @@
+# ArmorIQ Policy Profile for the Filesystem MCP Server
+# Stage with: armoriq policy propose --file policy.yaml
+name: filesystem-notes-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: filesystem   # replace with the registered filesystem MCP server id
+  caller: all
+default_action: block
+priority: 50
+rules:
+  # Safe read operations -> ALLOW
+  - tool: read_file
+    action: allow
+  - tool: read_multiple_files
+    action: allow
+  - tool: list_directory
+    action: allow
+  - tool: list_directory_with_sizes
+    action: allow
+  - tool: directory_tree
+    action: allow
+  - tool: search_files
+    action: allow
+  - tool: get_file_info
+    action: allow
+  - tool: list_allowed_directories
+    action: allow
+
+  # Mutating operations -> HOLD (requires human approval)
+  - tool: write_file
+    action: hold
+  - tool: edit_file
+    action: hold
+  - tool: create_directory
+    action: hold
+  - tool: move_file
+    action: hold
