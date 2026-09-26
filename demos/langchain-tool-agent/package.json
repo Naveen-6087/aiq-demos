@@ -1,0 +1,19 @@
+{
+  "name": "armoriq-langchain-tool-agent",
+  "version": "1.0.0",
+  "description": "A real LangChain tool-calling agent governed end-to-end by the ArmorIQLangChain callback handler",
+  "main": "agent.js",
+  "type": "module",
+  "scripts": {
+    "start": "node agent.js"
+  },
+  "dependencies": {
+    "@armoriq/sdk": "^0.6.8",
+    "@langchain/core": "^1.2.12",
+    "@langchain/google-genai": "^2.3.2",
+    "@modelcontextprotocol/sdk": "^1.30.1",
+    "dotenv": "^16.4.7",
+    "langchain": "^1.5.12",
+    "zod": "^3.24.1"
+  }
+}

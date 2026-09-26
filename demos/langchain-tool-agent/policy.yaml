@@ -1,0 +1,25 @@
+# ArmorIQ Policy Profile for the (custom) weather MCP server
+# Author this in Platform -> Policies -> Policy Studio -> Single Policy
+# (Target Type: mcp_server, Target ID: your registered weather server's id) -
+# paste these rules into the YAML editor there, it's bidirectional with the
+# form. This is NOT staged via `armoriq policy propose` - that CLI command
+# targets a different, org-wide policy system for coding-agent products.
+name: weather-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: weather   # replace with the registered weather MCP server id
+  caller: all
+default_action: block
+priority: 50
+rules:
+  # weather-mcp only exposes read-only public-data lookups (geocoding,
+  # forecasts, current conditions) - there is nothing destructive or
+  # sensitive to gate, so this policy allows both tools this demo uses
+  # outright, unlike the tiered allow/hold/block policies in the other
+  # cookbook demos. Not every MCP needs holds; match the policy to what the
+  # tool can actually do.
+  - tool: search_location
+    action: allow
+  - tool: get_current_conditions
+    action: allow
