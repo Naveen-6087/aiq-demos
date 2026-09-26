@@ -1,0 +1,23 @@
+# ArmorIQ Policy Profile for the Postgres MCP Server
+# Author this in Platform -> Policies -> Policy Studio -> Single Policy
+# (Target Type: mcp_server, Target ID: your registered postgres server's id) -
+# paste these rules into the YAML editor there, it's bidirectional with the
+# form. This is NOT staged via `armoriq policy propose` - that CLI command
+# targets a different, org-wide policy system for coding-agent products.
+name: postgres-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: postgres   # replace with the registered postgres MCP server id
+  caller: all
+default_action: block
+priority: 50
+rules:
+  # The reference postgres MCP server exposes exactly one tool, "query", that
+  # accepts arbitrary SQL - there is no separate "select" vs "delete" tool
+  # name to allowlist by. Because ArmorIQ cannot see whether a given SQL
+  # string is safe from the tool name alone, hold every query for human
+  # review rather than blanket-allowing reads the way the filesystem/memory
+  # demos do. A reviewer sees the actual SQL text before approving.
+  - tool: query
+    action: hold

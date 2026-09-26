@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: armoriq-postgres-notes-demo
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: armoriq
+      POSTGRES_PASSWORD: armoriq_demo_password
+      POSTGRES_DB: armoriq_notes
+    ports:
+      - "55432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
