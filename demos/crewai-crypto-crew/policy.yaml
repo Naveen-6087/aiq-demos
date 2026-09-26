@@ -1,0 +1,17 @@
+# ArmorIQ Policy Profile for the coingecko MCP target CrewAI's tool is
+# attributed to (see crypto_tool.py's `mcp = "coingecko"`). Reuses the same
+# registered "coingecko" MCP server and policy as the
+# ../coingecko-crypto-agent demo - author this in Platform -> Policies ->
+# Policy Studio -> Single Policy (Target Type: mcp_server, Target ID: your
+# registered coingecko server's id).
+name: coingecko-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: coingecko
+  caller: all
+default_action: block
+priority: 50
+rules:
+  - tool: get_price
+    action: allow

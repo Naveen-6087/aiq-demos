@@ -1,0 +1,4 @@
+crewai[tools,google-genai]
+armoriq-sdk[crewai]
+requests
+python-dotenv
