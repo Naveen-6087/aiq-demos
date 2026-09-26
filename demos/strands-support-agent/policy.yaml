@@ -1,0 +1,42 @@
+# ArmorIQ Policy Profile for the support-desk MCP Server
+# Author this in Platform -> Policies -> Policy Studio -> Single Policy
+# (Target Type: mcp_server, Target ID: your registered support-desk server's
+# id) - paste these rules into the YAML editor there, it's bidirectional with
+# the form. This is NOT staged via `armoriq policy propose` - that CLI
+# command targets a different, org-wide policy system for coding-agent
+# products.
+name: support-desk-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: support-desk   # replace with the registered support-desk MCP server id
+  caller: all
+default_action: block
+priority: 50
+rules:
+  # Read-only lookups -> ALLOW
+  - tool: list_tickets
+    action: allow
+  - tool: get_ticket
+    action: allow
+
+  # Low-risk write: posting a reply moves no money and deletes nothing -> ALLOW
+  - tool: reply_to_ticket
+    action: allow
+
+  # Money movement -> HOLD (requires human approval). `issue_refund`'s
+  # `amount` argument is deliberately named "amount" - ArmorIQ's policy
+  # engine scans tool arguments for canonical money-field names
+  # (amount/value/total/price/cost) to evaluate amount-threshold rules. The
+  # Policy Studio form's Member Rules section exposes an "Amount thresholds"
+  # field per rule if you want e.g. "hold only above $100" instead of every
+  # refund - this YAML holds every refund unconditionally, which is the
+  # simpler and safer default for a demo.
+  - tool: issue_refund
+    action: hold
+
+  # Destructive and irreversible -> BLOCK (default_action already blocks
+  # this; listed explicitly so the intent is auditable in the policy file
+  # itself, and so it survives even if default_action is ever loosened)
+  - tool: close_account
+    action: block

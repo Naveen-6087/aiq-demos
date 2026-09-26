@@ -1,0 +1,4 @@
+strands-agents[gemini]==1.57.1
+armoriq-sdk[strands]==0.6.10
+mcp==2.1.1
+python-dotenv==1.2.3
