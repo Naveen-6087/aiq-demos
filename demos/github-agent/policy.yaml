@@ -1,0 +1,25 @@
+# Author in Platform -> Policies -> Policy Studio -> Single Policy
+# (Target Type: mcp_server, Target ID: your registered github MCP server's id)
+name: github-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: github
+  caller: all
+default_action: block
+priority: 50
+rules:
+  - tool: search_repositories
+    action: allow
+  - tool: list_commits
+    action: allow
+  - tool: list_issues
+    action: allow
+  - tool: get_file_contents
+    action: allow
+  - tool: create_pull_request
+    action: hold
+  - tool: create_or_update_file
+    action: hold
+  - tool: delete_repository
+    action: block
