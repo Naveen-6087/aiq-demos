@@ -1,0 +1,25 @@
+# ArmorIQ Policy Profile for the (custom) CoinGecko MCP server
+# Author this in Platform -> Policies -> Policy Studio -> Single Policy
+# (Target Type: mcp_server, Target ID: your registered coingecko server's
+# id) - paste these rules into the YAML editor there, it's bidirectional
+# with the form. This is NOT staged via `armoriq policy propose` - that CLI
+# command targets a different, org-wide policy system for coding-agent
+# products.
+name: coingecko-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: coingecko   # replace with your registered coingecko MCP server's id
+  caller: all
+default_action: block
+priority: 50
+rules:
+  # Crypto market data is a read-only public-data domain - there's nothing
+  # destructive or sensitive to gate here, so (like the weather demo) this
+  # policy allows every tool outright rather than tiering allow/hold/block.
+  - tool: search_coin
+    action: allow
+  - tool: get_price
+    action: allow
+  - tool: get_market_data
+    action: allow
