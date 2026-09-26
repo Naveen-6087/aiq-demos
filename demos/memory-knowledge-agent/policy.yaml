@@ -1,0 +1,35 @@
+# ArmorIQ Policy Profile for the Memory (knowledge graph) MCP Server
+# Stage with: armoriq policy propose --file policy.yaml
+name: memory-knowledge-policy
+version: v0.1.0
+scope:
+  target_type: mcp
+  target: memory   # replace with the registered memory MCP server id
+  caller: all
+default_action: block
+priority: 50
+rules:
+  # Safe read operations -> ALLOW
+  - tool: search_nodes
+    action: allow
+  - tool: open_nodes
+    action: allow
+  - tool: read_graph
+    action: allow
+
+  # New-fact ingestion -> HOLD (requires human approval before it's trusted)
+  - tool: create_entities
+    action: hold
+  - tool: create_relations
+    action: hold
+  - tool: add_observations
+    action: hold
+
+  # Destructive operations -> BLOCK (default_action already blocks these;
+  # listed explicitly so the intent is auditable in the policy file itself)
+  - tool: delete_entities
+    action: block
+  - tool: delete_relations
+    action: block
+  - tool: delete_observations
+    action: block
